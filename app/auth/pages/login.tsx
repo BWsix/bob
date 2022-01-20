@@ -1,23 +1,15 @@
-import { useRouter, BlitzPage } from "blitz"
-import Layout from "app/core/layouts/Layout"
-import { LoginForm } from "app/auth/components/LoginForm"
+import { useRouter, BlitzPage } from "blitz";
+import Layout from "app/core/layouts/Layout";
 
 const LoginPage: BlitzPage = () => {
-  const router = useRouter()
-
   return (
     <div>
-      <LoginForm
-        onSuccess={(_user) => {
-          const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
-          router.push(next)
-        }}
-      />
+      <a href="/api/auth/github">Log In With GITHUB</a>
     </div>
-  )
-}
+  );
+};
 
-LoginPage.redirectAuthenticatedTo = "/"
-LoginPage.getLayout = (page) => <Layout title="Log In">{page}</Layout>
+LoginPage.redirectAuthenticatedTo = "/";
+LoginPage.getLayout = (page) => <Layout title="登入">{page}</Layout>;
 
-export default LoginPage
+export default LoginPage;
