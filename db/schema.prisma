@@ -68,6 +68,9 @@ model File {
   user   User? @relation(fields: [userId], references: [id])
   userId Int?
 
+  categoryType   CategoryType? @relation(fields: [categoryTypeId], references: [id])
+  categoryTypeId Int?
+
   title       String
   description String?
   externalUrl String?
@@ -96,4 +99,14 @@ model AttachmentType {
   sizeLimit         Int
 
   attachment Attachment[]
+}
+
+model CategoryType {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  categoryName String @unique
+
+  file File[]
 }
