@@ -1,7 +1,6 @@
 import Layout from "app/core/layouts/Layout";
 import { FileForm, FORM_ERROR } from "app/files/components/FileForm";
 import createFile from "app/files/mutations/createFile";
-import { CreateFile } from "app/files/validations";
 import { BlitzPage, Link, Routes, useMutation, useRouter } from "blitz";
 
 const NewFilePage: BlitzPage = () => {
@@ -14,7 +13,6 @@ const NewFilePage: BlitzPage = () => {
 
       <FileForm
         submitText="新增檔案"
-        schema={CreateFile}
         onSubmit={async (values) => {
           try {
             const file = await createFileMutation(values);
