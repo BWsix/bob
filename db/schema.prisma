@@ -23,6 +23,7 @@ model User {
 
   tokens   Token[]
   sessions Session[]
+  files    File[]
 }
 
 model Session {
@@ -57,4 +58,42 @@ model Token {
 
 enum TokenType {
   RESET_PASSWORD
+}
+
+model File {
+  id        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
+
+  title       String
+  description String?
+  externalUrl String?
+  attachment  Attachment[]
+}
+
+model Attachment {
+  id        String   @id
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  file   File   @relation(fields: [fileId], references: [id])
+  fileId String
+
+  attachmentTitle  String
+  attachmentType   AttachmentType @relation(fields: [attachmentTypeId], references: [id])
+  attachmentTypeId Int
+}
+
+model AttachmentType {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  fileExtensionName String @unique
+  sizeLimit         Int
+
+  attachment Attachment[]
 }
