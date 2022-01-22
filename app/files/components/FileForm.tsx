@@ -117,10 +117,10 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
             <TextField
               fullWidth
               multiline
-              rows={5}
               name="description"
               label="敘述"
               color="secondary"
+              rows={Math.max(5, (formik.values.description?.split("\n").length || 0) + 3)} // min: 5, max: lines + 3
               aria-describedby="field-description"
               value={formik.values.description}
               onChange={formik.handleChange}
@@ -195,7 +195,7 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
               fullWidth
               disabled={formik.isSubmitting || isUploading}
             >
-              {formik.isSubmitting || isUploading ? <CircularProgress /> : submitText}
+              {formik.isSubmitting || isUploading ? <CircularProgress size={24} /> : submitText}
             </Button>
           </Grid>
         </Grid>

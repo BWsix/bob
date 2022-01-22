@@ -10,12 +10,7 @@ const NewFilePage: BlitzPage = () => {
 
   return (
     <>
-      <Breadcrumb
-        meta={[
-          { path: "/dashboard", name: "檔案列表" },
-          { path: "", name: "新增檔案" },
-        ]}
-      />
+      <Breadcrumb meta={[{ path: "/dashboard", name: "檔案列表" }, { name: "新增檔案" }]} />
 
       <Container component="main" maxWidth="sm" sx={{ marginTop: 4 }}>
         <FileForm
