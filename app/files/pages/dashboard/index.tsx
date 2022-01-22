@@ -1,68 +1,80 @@
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Pagination from "@mui/material/Pagination";
+import { Loader } from "app/core/components/gadgets/Loader";
 import Layout from "app/core/layouts/Layout";
+import { File } from "app/files/components/File";
 import getFiles from "app/files/queries/getFiles";
-import { BlitzPage, Head, Link, Routes, usePaginatedQuery, useRouter } from "blitz";
+import { BlitzPage, Link, Routes, usePaginatedQuery, useRouter } from "blitz";
 import { Suspense } from "react";
 
-const ITEMS_PER_PAGE = 3;
+const ITEMS_PER_PAGE = 15;
 
 export const FilesList = () => {
   const router = useRouter();
   const page = Number(router.query.page) || 0;
-  const [{ files, hasMore }] = usePaginatedQuery(getFiles, {
+
+  const [{ files, count }] = usePaginatedQuery(getFiles, {
     orderBy: { createdAt: "desc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   });
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } });
-  const goToNextPage = () => router.push({ query: { page: page + 1 } });
+  const handlePagination = (_, value: number) => {
+    router.push({ query: { page: value - 1 } });
+  };
 
   return (
-    <div>
-      <ul>
-        {files.map((file) => (
-          <li key={file.id}>
-            <Link href={Routes.ShowFilePage({ fileId: file.id })}>
-              <a>{file.title}</a>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <>
+      <Grid container direction="row" justifyContent="space-around" alignItems="center" marginY={3}>
+        <Grid item>
+          <Pagination
+            count={Math.floor(count / ITEMS_PER_PAGE) + 1}
+            onChange={handlePagination}
+            size="large"
+          />
+        </Grid>
+        <Grid item>
+          <Link href={Routes.NewFilePage()}>
+            <Button variant="contained">新增檔案</Button>
+          </Link>
+        </Grid>
+      </Grid>
 
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
-    </div>
+      {files.map((file, idx) => (
+        <>
+          <File key={file.id} file={file} />
+          {idx < files.length - 1 && <Divider light />}
+        </>
+      ))}
+
+      <Grid container justifyContent="space-around" marginTop={3}>
+        <Pagination
+          count={Math.floor(count / ITEMS_PER_PAGE) + 1}
+          onChange={handlePagination}
+          size="large"
+        />
+      </Grid>
+    </>
   );
 };
 
 const FilesPage: BlitzPage = () => {
   return (
     <>
-      <Head>
-        <title>Files</title>
-      </Head>
-
-      <div>
-        <p>
-          <Link href={Routes.NewFilePage()}>
-            <a>Create File</a>
-          </Link>
-        </p>
-
-        <Suspense fallback={<div>Loading...</div>}>
+      <Container maxWidth="md">
+        <Suspense fallback={<Loader />}>
           <FilesList />
         </Suspense>
-      </div>
+      </Container>
     </>
   );
 };
 
 FilesPage.suppressFirstRenderFlicker = true;
-FilesPage.authenticate = true;
-FilesPage.getLayout = (page) => <Layout>{page}</Layout>;
+FilesPage.authenticate = { redirectTo: Routes.LoginPage() };
+FilesPage.getLayout = (page) => <Layout subTitle="檔案列表">{page}</Layout>;
 
 export default FilesPage;
