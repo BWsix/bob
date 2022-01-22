@@ -8,6 +8,8 @@ declare global {
       GITHUB_CALLBACK_URL: string;
 
       DATABASE_URL: string;
+
+      DETA_PROJECT_KEY: string;
     }
   }
 }
