@@ -51,8 +51,9 @@ export default passportAuth(({ ctx, req, res }) => ({
           const publicData = {
             userId: user.id,
             role: user.role as Role,
-            source: "github",
-            githubUsername: profile.username,
+            source: "github" as const,
+            avatar: profile.photos[0].value,
+            userName: profile.username,
           };
           done(null, { publicData });
         }
