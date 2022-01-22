@@ -1,7 +1,7 @@
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -12,11 +12,23 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import logout from "app/auth/mutations/logout";
-import { useMutation, useSession } from "blitz";
-import { useState } from "react";
+import { useMutation } from "blitz";
+import { Suspense, useState } from "react";
+import AvatarLoader from "./gadgets/AvatarLoader";
+
+const menuItems = [
+  <Button
+    key="github"
+    href="https://github.com/BWsix/bob"
+    target="_blank"
+    endIcon={<OpenInNewIcon />}
+    sx={{ color: "white", textTransform: "none" }}
+  >
+    GitHub
+  </Button>,
+];
 
 const Header = () => {
-  const session = useSession();
   const [logoutMutation] = useMutation(logout);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -42,8 +54,8 @@ const Header = () => {
       <Container maxWidth="md">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
             noWrap
+            variant="h6"
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
@@ -51,24 +63,16 @@ const Header = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+            <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              keepMounted
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
               }}
-              keepMounted
               transformOrigin={{
                 vertical: "top",
                 horizontal: "left",
@@ -79,46 +83,34 @@ const Header = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <MenuItem href="https://github.com/BWsix/bob" target="_blank">
-                <Typography textAlign="center">Github</Typography>
-                <OpenInNewIcon />
-              </MenuItem>
+              {menuItems}
             </Menu>
           </Box>
           <Typography
-            variant="h6"
             noWrap
+            variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
             Bob - 自主學習檔案系統
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              href="https://github.com/BWsix/bob"
-              target="_blank"
-              endIcon={<OpenInNewIcon />}
-              sx={{ my: 2, color: "white", textTransform: "none" }}
-            >
-              Github
-            </Button>
-          </Box>
-
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>{menuItems}</Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="開啟選單">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={session.userName} src={session.avatar} />
+                <Suspense fallback={<AccountCircleIcon fontSize="large" />}>
+                  <AvatarLoader />
+                </Suspense>
               </IconButton>
             </Tooltip>
             <Menu
+              keepMounted
               sx={{ mt: "45px" }}
-              id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
                 horizontal: "right",
               }}
-              keepMounted
               transformOrigin={{
                 vertical: "top",
                 horizontal: "right",
