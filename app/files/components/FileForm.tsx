@@ -17,7 +17,6 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { acceptedMimeTypes, fileSizeLimit } from "../constants";
 import { CreateFile, descriptionMaxLength } from "../validations";
 
-const antiCSRFToken = getAntiCSRFToken();
 export const FORM_ERROR = "FORM_ERROR";
 
 type CreateFileType = z.infer<typeof CreateFile>;
@@ -43,13 +42,6 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
   );
   const [isUploading, setIsUploading] = useState(false);
 
-  const axiosPostConfig = {
-    headers: { "content-type": "multipart/form-data", "anti-csrf": antiCSRFToken },
-    onUploadProgress: () => {
-      setIsUploading(true);
-    },
-  };
-
   const { fileRejections, getRootProps, getInputProps } = useDropzone({
     accept: acceptedMimeTypes,
     maxFiles: 1,
@@ -73,6 +65,14 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
       if (Object.keys(otherErrors).length > 0) {
         setErrors(otherErrors);
       } else if (acceptedFile) {
+        const antiCSRFToken = getAntiCSRFToken();
+        const axiosPostConfig = {
+          headers: { "content-type": "multipart/form-data", "anti-csrf": antiCSRFToken },
+          onUploadProgress: () => {
+            setIsUploading(true);
+          },
+        };
+
         const formData = new FormData();
         formData.append("attachment", acceptedFile);
         formData.append("fileId", fileId!);
