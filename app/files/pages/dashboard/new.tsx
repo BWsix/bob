@@ -1,28 +1,21 @@
-import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Container from "@mui/material/Container";
-import MuiLink from "@mui/material/Link";
+import { Breadcrumb } from "app/core/components/Breadcrumb";
 import Layout from "app/core/layouts/Layout";
 import { FileForm, FORM_ERROR } from "app/files/components/FileForm";
 import createFile from "app/files/mutations/createFile";
-import { BlitzPage, Link, Routes, useMutation } from "blitz";
+import { BlitzPage, useMutation } from "blitz";
 
 const NewFilePage: BlitzPage = () => {
   const [createFileMutation] = useMutation(createFile);
 
   return (
     <>
-      <Container component="main" maxWidth="md" sx={{ marginTop: 4 }}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link href={Routes.FilesPage()}>
-            <MuiLink color="secondary" sx={{ cursor: "pointer" }}>
-              檔案列表
-            </MuiLink>
-          </Link>
-          <MuiLink color="secondary" sx={{ cursor: "pointer" }}>
-            新增檔案
-          </MuiLink>
-        </Breadcrumbs>
-      </Container>
+      <Breadcrumb
+        meta={[
+          { path: "/dashboard", name: "檔案列表" },
+          { path: "", name: "新增檔案" },
+        ]}
+      />
 
       <Container component="main" maxWidth="sm" sx={{ marginTop: 4 }}>
         <FileForm
