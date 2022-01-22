@@ -6,9 +6,9 @@ import { UpdateFile } from "../validations";
 export default resolver.pipe(
   resolver.zod(UpdateFile),
   resolver.authorize("USER"),
-  async ({ fileId, ...data }) => {
+  async ({ clientNoFileName, fileId, ...data }) => {
     const file = await db.file.update({
-      where: { id: fileId },
+      where: { id: fileId! },
       data,
       include: {
         attachment: {
@@ -19,7 +19,7 @@ export default resolver.pipe(
       },
     });
 
-    if (file?.attachment.length) {
+    if (clientNoFileName && file?.attachment.length) {
       const attachmentIds = file.attachment.map(({ id }) => id) as string[];
 
       await drive.deleteMany(attachmentIds);

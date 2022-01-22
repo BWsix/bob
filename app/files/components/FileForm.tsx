@@ -15,11 +15,11 @@ import { useDropzone } from "react-dropzone";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { acceptedMimeTypes, fileSizeLimit } from "../constants";
-import { CreateFile, descriptionMaxLength } from "../validations";
+import { CreateFile, descriptionMaxLength, UpdateFile } from "../validations";
 
 export const FORM_ERROR = "FORM_ERROR";
 
-type CreateFileType = z.infer<typeof CreateFile>;
+type CreateFileType = z.infer<typeof UpdateFile>;
 
 interface OnSubmitResult {
   fileId?: string;
@@ -56,7 +56,8 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
     initialValues: initialValues || { title: "" },
     validationSchema: toFormikValidationSchema(CreateFile),
     onSubmit: async (values, { setErrors }) => {
-      const { fileId, FORM_ERROR, ...otherErrors } = (await onSubmit(values)) || {};
+      const { fileId, FORM_ERROR, ...otherErrors } =
+        (await onSubmit({ ...values, clientNoFileName: !Boolean(attachmentFileName) })) || {};
 
       if (FORM_ERROR) {
         setFormError(FORM_ERROR);
@@ -175,7 +176,7 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
               >
                 <input {...getInputProps()} />
                 <Typography textAlign="center" color={fileRejections.length ? "red" : "secondary"}>
-                  {fileRejections[0]?.errors[0]?.code || "拖曳或點擊此處上傳來檔案"}
+                  {fileRejections[0]?.errors[0]?.code || "拖曳或點擊此處來上傳檔案"}
                 </Typography>
               </Paper>
             )}

@@ -53,10 +53,16 @@ const handler = nextConnect<NextApiRequest & UploadForm, NextApiResponse>({
       const attachmentId = nanoid(10);
       const { userId } = await getSession(req, res);
 
+      if (!userId) {
+        return res.status(403).end();
+      }
+
       const isAuthor = await db.file.count({ where: { id: fileId, userId } });
       if (!isAuthor) {
         return res.status(403).json({ error: "Unauthorized action." });
       }
+
+      await db.attachment.deleteMany({ where: { file: { user: { id: userId } } } });
 
       const attachment = await db.attachment.create({
         data: {

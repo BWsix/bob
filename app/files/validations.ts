@@ -20,7 +20,11 @@ const baseAttr = z.object({
 
 export const GetFile = baseQuery;
 
-export const UpdateFile = baseQuery.merge(baseAttr);
+export const UpdateFile = baseAttr.merge(baseQuery).merge(
+  z.object({
+    clientNoFileName: z.boolean().nullish(),
+  })
+);
 
 export const CreateFile = baseAttr;
 
