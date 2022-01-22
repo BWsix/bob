@@ -1,8 +1,11 @@
+import Container from "@mui/material/Container";
+import { Breadcrumb } from "app/core/components/Breadcrumb";
+import { Loader } from "app/core/components/gadgets/Loader";
 import Layout from "app/core/layouts/Layout";
 import { FileForm, FORM_ERROR } from "app/files/components/FileForm";
 import updateFile from "app/files/mutations/updateFile";
 import getFile from "app/files/queries/getFile";
-import { BlitzPage, Head, Link, Routes, useMutation, useParam, useQuery, useRouter } from "blitz";
+import { BlitzPage, Head, useMutation, useParam, useQuery } from "blitz";
 import { Suspense } from "react";
 
 export const EditFile = () => {
@@ -22,47 +25,48 @@ export const EditFile = () => {
         <title>正在編輯檔案 - {file.title}</title>
       </Head>
 
-      <div>
-        <h1>正在編輯檔案 - {file.title}</h1>
-        <pre>{JSON.stringify(file, null, 2)}</pre>
-
-        <FileForm
-          submitText="儲存變更"
-          initialValues={{ ...file, attachmentFileName: file.attachment[0]?.attachmentTitle }}
-          onSubmit={async (values) => {
-            try {
-              await updateFileMutation({
-                ...values,
-                fileId: file.id,
-              });
-
-              return { fileId: file.id };
-            } catch (error: any) {
-              console.error(error);
-              return {
-                [FORM_ERROR]: error.toString(),
-              };
-            }
-          }}
+      <>
+        <Breadcrumb
+          meta={[
+            { path: "/dashboard", name: "檔案列表" },
+            { path: `/dashboard/${file.id}`, name: file.title },
+            { name: "編輯" },
+          ]}
         />
-      </div>
+
+        <Container component="main" maxWidth="sm" sx={{ marginTop: 4 }}>
+          <FileForm
+            submitText="儲存變更"
+            initialValues={{ ...file, attachmentFileName: file.attachment[0]?.attachmentTitle }}
+            onSubmit={async (values) => {
+              try {
+                await updateFileMutation({
+                  ...values,
+                  fileId: file.id,
+                });
+
+                return { fileId: file.id };
+              } catch (error: any) {
+                console.error(error);
+                return {
+                  [FORM_ERROR]: error.toString(),
+                };
+              }
+            }}
+          />
+        </Container>
+      </>
     </>
   );
 };
 
 const EditFilePage: BlitzPage = () => {
   return (
-    <div>
-      <Suspense fallback={<div>Loading...</div>}>
+    <>
+      <Suspense fallback={<Loader />}>
         <EditFile />
       </Suspense>
-
-      <p>
-        <Link href={Routes.FilesPage()}>
-          <a>Files</a>
-        </Link>
-      </p>
-    </div>
+    </>
   );
 };
 
