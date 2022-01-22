@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import logout from "app/auth/mutations/logout";
 import { useMutation } from "blitz";
 import { Suspense, useState } from "react";
-import AvatarLoader from "./gadgets/AvatarLoader";
+import { AvatarLoader } from "./gadgets/AvatarLoader";
 
 const menuItems = [
   <Button
@@ -28,7 +28,7 @@ const menuItems = [
   </Button>,
 ];
 
-const Header = () => {
+export const Header = () => {
   const [logoutMutation] = useMutation(logout);
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -37,6 +37,7 @@ const Header = () => {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -128,5 +129,3 @@ const Header = () => {
     </AppBar>
   );
 };
-
-export default Header;
