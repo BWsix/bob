@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Pagination from "@mui/material/Pagination";
+import { Breadcrumb } from "app/core/components/Breadcrumb";
 import { Loader } from "app/core/components/gadgets/Loader";
 import Layout from "app/core/layouts/Layout";
 import { File } from "app/files/components/File";
@@ -28,20 +29,13 @@ export const FilesList = () => {
 
   return (
     <>
-      <Grid container direction="row" justifyContent="space-around" alignItems="center" marginY={3}>
-        <Grid item>
-          <Pagination
-            count={Math.floor(count / ITEMS_PER_PAGE) + 1}
-            onChange={handlePagination}
-            size="large"
-          />
-        </Grid>
-        <Grid item>
-          <Link href={Routes.NewFilePage()}>
-            <Button variant="contained">新增檔案</Button>
-          </Link>
-        </Grid>
-      </Grid>
+      <Breadcrumb meta={[{ name: "檔案列表" }]}>
+        <Link href={Routes.NewFilePage()}>
+          <Button variant="contained">新增檔案</Button>
+        </Link>
+      </Breadcrumb>
+
+      <br />
 
       {files.map((file, idx) => (
         <>
