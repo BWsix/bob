@@ -82,7 +82,7 @@ model Attachment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  file   File   @relation(fields: [fileId], references: [id])
+  file   File   @relation(fields: [fileId], references: [id], onDelete: Cascade)
   fileId String
 
   attachmentTitle  String
