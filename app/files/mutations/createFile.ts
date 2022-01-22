@@ -7,7 +7,7 @@ export default resolver.pipe(
   resolver.zod(CreateFile),
   resolver.authorize("USER"),
   async (input, { session: { userId } }) => {
-    let id = await getNewId();
+    const id = await getNewId();
 
     const file = await db.file.create({
       data: {
