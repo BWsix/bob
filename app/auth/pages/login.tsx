@@ -63,7 +63,11 @@ const LoginPage: BlitzPage = () => {
 };
 
 LoginPage.suppressFirstRenderFlicker = true;
-LoginPage.getLayout = (page) => <Layout subTitle="登入">{page}</Layout>;
+LoginPage.getLayout = (page) => (
+  <Layout subTitle="登入" noHeader>
+    {page}
+  </Layout>
+);
 LoginPage.redirectAuthenticatedTo = "/dashboard";
 
 export default LoginPage;
