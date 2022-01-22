@@ -6,7 +6,17 @@ export default resolver.pipe(
   resolver.zod(GetFile),
   resolver.authorize("USER"),
   async ({ fileId }, { session: { userId } }) => {
-    const file = await db.file.findFirst({ where: { id: fileId, userId } });
+    const file = await db.file.findFirst({
+      where: { id: fileId, userId },
+      include: {
+        attachment: {
+          select: {
+            id: true,
+            attachmentTitle: true,
+          },
+        },
+      },
+    });
 
     if (!file) throw new NotFoundError();
 

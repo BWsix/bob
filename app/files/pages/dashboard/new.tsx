@@ -4,7 +4,6 @@ import createFile from "app/files/mutations/createFile";
 import { BlitzPage, Link, Routes, useMutation, useRouter } from "blitz";
 
 const NewFilePage: BlitzPage = () => {
-  const router = useRouter();
   const [createFileMutation] = useMutation(createFile);
 
   return (
@@ -16,7 +15,8 @@ const NewFilePage: BlitzPage = () => {
         onSubmit={async (values) => {
           try {
             const file = await createFileMutation(values);
-            router.push(Routes.ShowFilePage({ fileId: file.id }));
+
+            return { fileId: file.id };
           } catch (error: any) {
             console.error(error);
             return {

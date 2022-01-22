@@ -2,14 +2,12 @@ import Layout from "app/core/layouts/Layout";
 import { FileForm, FORM_ERROR } from "app/files/components/FileForm";
 import updateFile from "app/files/mutations/updateFile";
 import getFile from "app/files/queries/getFile";
-import { CreateFile } from "app/files/validations";
 import { BlitzPage, Head, Link, Routes, useMutation, useParam, useQuery, useRouter } from "blitz";
 import { Suspense } from "react";
 
 export const EditFile = () => {
-  const router = useRouter();
   const fileId = useParam("fileId", "string");
-  const [file, { setQueryData }] = useQuery(
+  const [file] = useQuery(
     getFile,
     { fileId },
     {
@@ -30,16 +28,15 @@ export const EditFile = () => {
 
         <FileForm
           submitText="儲存變更"
-          schema={CreateFile}
-          initialValues={file}
+          initialValues={{ ...file, attachmentFileName: file.attachment[0]?.attachmentTitle }}
           onSubmit={async (values) => {
             try {
-              const updated = await updateFileMutation({
+              await updateFileMutation({
                 ...values,
                 fileId: file.id,
               });
-              await setQueryData(updated);
-              router.push(Routes.ShowFilePage({ fileId: updated.id }));
+
+              return { fileId: file.id };
             } catch (error: any) {
               console.error(error);
               return {
