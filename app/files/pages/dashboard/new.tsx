@@ -1,37 +1,47 @@
+import Breadcrumbs from "@mui/material/Breadcrumbs";
+import Container from "@mui/material/Container";
+import MuiLink from "@mui/material/Link";
 import Layout from "app/core/layouts/Layout";
 import { FileForm, FORM_ERROR } from "app/files/components/FileForm";
 import createFile from "app/files/mutations/createFile";
-import { BlitzPage, Link, Routes, useMutation, useRouter } from "blitz";
+import { BlitzPage, Link, Routes, useMutation } from "blitz";
 
 const NewFilePage: BlitzPage = () => {
   const [createFileMutation] = useMutation(createFile);
 
   return (
-    <div>
-      <h1>新增檔案</h1>
+    <>
+      <Container component="main" maxWidth="md" sx={{ marginTop: 4 }}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link href={Routes.FilesPage()}>
+            <MuiLink color="secondary" sx={{ cursor: "pointer" }}>
+              檔案列表
+            </MuiLink>
+          </Link>
+          <MuiLink color="secondary" sx={{ cursor: "pointer" }}>
+            新增檔案
+          </MuiLink>
+        </Breadcrumbs>
+      </Container>
 
-      <FileForm
-        submitText="新增檔案"
-        onSubmit={async (values) => {
-          try {
-            const file = await createFileMutation(values);
+      <Container component="main" maxWidth="sm" sx={{ marginTop: 4 }}>
+        <FileForm
+          submitText="新增檔案"
+          onSubmit={async (values) => {
+            try {
+              const file = await createFileMutation(values);
 
-            return { fileId: file.id };
-          } catch (error: any) {
-            console.error(error);
-            return {
-              [FORM_ERROR]: error.toString(),
-            };
-          }
-        }}
-      />
-
-      <p>
-        <Link href={Routes.FilesPage()}>
-          <a>檔案列表</a>
-        </Link>
-      </p>
-    </div>
+              return { fileId: file.id };
+            } catch (error: any) {
+              console.error(error);
+              return {
+                [FORM_ERROR]: error.toString(),
+              };
+            }
+          }}
+        />
+      </Container>
+    </>
   );
 };
 
