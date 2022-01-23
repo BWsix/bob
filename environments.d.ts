@@ -7,6 +7,10 @@ declare global {
       GITHUB_SECRET: string;
       GITHUB_CALLBACK_URL: string;
 
+      GOOGLE_ID: string;
+      GOOGLE_SECRET: string;
+      GOOGLE_CALLBACK_URL: string;
+
       DATABASE_URL: string;
 
       DETA_PROJECT_KEY: string;

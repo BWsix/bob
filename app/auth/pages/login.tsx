@@ -1,23 +1,14 @@
 import GitHub from "@mui/icons-material/GitHub";
+import Google from "@mui/icons-material/Google";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { makeStyles } from "@mui/styles";
 import Layout from "app/core/layouts/Layout";
 import { BlitzPage } from "blitz";
 
-const useStyles = makeStyles({
-  githubButton: {
-    backgroundColor: "#24292e",
-    textTransform: "none",
-  },
-});
-
 const LoginPage: BlitzPage = () => {
-  const classes = useStyles();
-
   return (
     <>
       <Container component="main" maxWidth="xs">
@@ -49,10 +40,20 @@ const LoginPage: BlitzPage = () => {
                 variant="contained"
                 size="large"
                 fullWidth
-                className={classes.githubButton}
                 startIcon={<GitHub />}
               >
                 Continue with GitHub
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                href="/api/auth/google"
+                variant="contained"
+                size="large"
+                fullWidth
+                startIcon={<Google />}
+              >
+                Continue with Google
               </Button>
             </Grid>
           </Grid>
