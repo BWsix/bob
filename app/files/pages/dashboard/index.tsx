@@ -71,7 +71,7 @@ const FilesPage: BlitzPage = () => {
 };
 
 FilesPage.suppressFirstRenderFlicker = true;
-FilesPage.authenticate = { redirectTo: Routes.LoginPage() };
+FilesPage.authenticate = { redirectTo: Routes.Home() };
 FilesPage.getLayout = (page) => <Layout subTitle="檔案列表">{page}</Layout>;
 
 export default FilesPage;

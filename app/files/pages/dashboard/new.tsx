@@ -3,7 +3,7 @@ import { Breadcrumb } from "app/core/components/Breadcrumb";
 import Layout from "app/core/layouts/Layout";
 import { FileForm, FORM_ERROR } from "app/files/components/FileForm";
 import createFile from "app/files/mutations/createFile";
-import { BlitzPage, useMutation } from "blitz";
+import { BlitzPage, Routes, useMutation } from "blitz";
 
 const NewFilePage: BlitzPage = () => {
   const [createFileMutation] = useMutation(createFile);
@@ -34,7 +34,7 @@ const NewFilePage: BlitzPage = () => {
 };
 
 NewFilePage.suppressFirstRenderFlicker = true;
-NewFilePage.authenticate = true;
+NewFilePage.authenticate = { redirectTo: Routes.Home() };
 NewFilePage.getLayout = (page) => <Layout subTitle="新增檔案">{page}</Layout>;
 
 export default NewFilePage;

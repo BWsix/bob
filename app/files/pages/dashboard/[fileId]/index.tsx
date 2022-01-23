@@ -108,7 +108,7 @@ const ShowFilePage: BlitzPage = () => {
   );
 };
 
-ShowFilePage.authenticate = true;
+ShowFilePage.authenticate = { redirectTo: Routes.Home() };
 ShowFilePage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default ShowFilePage;

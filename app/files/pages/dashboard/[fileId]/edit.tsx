@@ -5,7 +5,7 @@ import Layout from "app/core/layouts/Layout";
 import { FileForm, FORM_ERROR } from "app/files/components/FileForm";
 import updateFile from "app/files/mutations/updateFile";
 import getFile from "app/files/queries/getFile";
-import { BlitzPage, Head, useMutation, useParam, useQuery } from "blitz";
+import { BlitzPage, Head, Routes, useMutation, useParam, useQuery } from "blitz";
 import { Suspense } from "react";
 
 export const EditFile = () => {
@@ -71,7 +71,7 @@ const EditFilePage: BlitzPage = () => {
 };
 
 EditFilePage.suppressFirstRenderFlicker = true;
-EditFilePage.authenticate = true;
+EditFilePage.authenticate = { redirectTo: Routes.Home() };
 EditFilePage.getLayout = (page) => <Layout>{page}</Layout>;
 
 export default EditFilePage;

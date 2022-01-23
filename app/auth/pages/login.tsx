@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Layout from "app/core/layouts/Layout";
-import { BlitzPage } from "blitz";
+import { BlitzPage, Routes } from "blitz";
 
 const LoginPage: BlitzPage = () => {
   return (
@@ -69,6 +69,6 @@ LoginPage.getLayout = (page) => (
     {page}
   </Layout>
 );
-LoginPage.redirectAuthenticatedTo = "/dashboard";
+LoginPage.redirectAuthenticatedTo = Routes.FilesPage();
 
 export default LoginPage;
