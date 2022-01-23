@@ -1,13 +1,15 @@
 import { Header } from "app/core/components/Header";
 import { BlitzLayout, Head } from "blitz";
+import { Footer } from "app/core/components/Footer";
 
 interface Props {
   title?: string;
   subTitle?: string;
   noHeader?: boolean;
+  noFooter?: boolean;
 }
 
-const Layout: BlitzLayout<Props> = ({ title, subTitle, noHeader, children }) => {
+const Layout: BlitzLayout<Props> = ({ title, subTitle, noHeader, noFooter, children }) => {
   return (
     <>
       <Head>
@@ -16,8 +18,8 @@ const Layout: BlitzLayout<Props> = ({ title, subTitle, noHeader, children }) => 
       </Head>
 
       {!noHeader && <Header />}
-
       {children}
+      {!noFooter && <Footer />}
     </>
   );
 };
