@@ -1,12 +1,15 @@
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
+import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { Breadcrumb } from "app/core/components/Breadcrumb";
 import { Loader } from "app/core/components/gadgets/Loader";
 import Layout from "app/core/layouts/Layout";
+import { AttachmentViewer } from "app/files/components/AttachmentViewer";
+import { useAttachment } from "app/files/hooks/useAttachment";
 import deleteFile from "app/files/mutations/deleteFile";
 import getFile from "app/files/queries/getFile";
 import { BlitzPage, Link, Routes, useMutation, useParam, useQuery, useRouter } from "blitz";
@@ -17,6 +20,8 @@ const File = ({ fileId }: { fileId: string }) => {
 
   const [file] = useQuery(getFile, { fileId });
   const [deleteFileMutation] = useMutation(deleteFile);
+
+  const [attachmentFile, loading, error] = useAttachment(file.attachment[0]?.id);
 
   return (
     <>
@@ -42,13 +47,24 @@ const File = ({ fileId }: { fileId: string }) => {
           </Typography>
         )}
 
-        <Typography
-          color="secondary"
-          marginY={8}
-          style={{ display: "inline-block", whiteSpace: "pre-line" }}
-        >
-          {file.description}
-        </Typography>
+        {file.description && (
+          <Typography
+            color="secondary"
+            marginTop={8}
+            marginBottom={2}
+            style={{ display: "inline-block", whiteSpace: "pre-line" }}
+          >
+            {file.description}
+          </Typography>
+        )}
+
+        {loading ? (
+          <Typography textAlign="center">
+            <CircularProgress />
+          </Typography>
+        ) : (
+          error || (attachmentFile && <AttachmentViewer file={attachmentFile} />)
+        )}
 
         <Grid container justifyContent="flex-end">
           <Grid item>

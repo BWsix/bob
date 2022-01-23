@@ -38,10 +38,10 @@ export const FilesList = () => {
       <br />
 
       {files.map((file, idx) => (
-        <>
-          <File key={file.id} file={file} />
+        <div key={file.id}>
+          <File file={file} />
           {idx < files.length - 1 && <Divider light />}
-        </>
+        </div>
       ))}
 
       <Grid container justifyContent="space-around" marginTop={3}>

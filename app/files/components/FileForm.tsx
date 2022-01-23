@@ -16,6 +16,7 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { acceptedMimeTypes, fileSizeLimit } from "../constants";
 import { CreateFile, descriptionMaxLength, UpdateFile } from "../validations";
+import { AttachmentViewer } from "./AttachmentViewer";
 
 export const FORM_ERROR = "FORM_ERROR";
 
@@ -186,6 +187,12 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
             <Typography variant="h5" color="red">
               {formError}
             </Typography>
+          )}
+
+          {acceptedFile && (
+            <Grid item xs={12}>
+              <AttachmentViewer file={acceptedFile} />
+            </Grid>
           )}
 
           <Grid item xs={6} md={4}>
