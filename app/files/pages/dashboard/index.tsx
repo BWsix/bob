@@ -15,6 +15,7 @@ const ITEMS_PER_PAGE = 15;
 
 export const FilesList = () => {
   const router = useRouter();
+
   const page = Number(router.query.page) || 0;
 
   const [{ files, count }] = usePaginatedQuery(getFiles, {
@@ -44,13 +45,15 @@ export const FilesList = () => {
         </div>
       ))}
 
-      <Grid container justifyContent="space-around" marginTop={3}>
-        <Pagination
-          count={Math.floor(count / ITEMS_PER_PAGE) + 1}
-          onChange={handlePagination}
-          size="large"
-        />
-      </Grid>
+      {Boolean(Math.floor(count / ITEMS_PER_PAGE)) && (
+        <Grid container justifyContent="space-around" marginTop={3}>
+          <Pagination
+            count={Math.floor(count / ITEMS_PER_PAGE) + 1}
+            onChange={handlePagination}
+            size="large"
+          />
+        </Grid>
+      )}
     </>
   );
 };

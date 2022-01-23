@@ -28,7 +28,7 @@ const File = ({ fileId }: { fileId: string }) => {
       <Breadcrumb meta={[{ path: "/dashboard", name: "檔案列表" }, { name: file.title }]} />
 
       <Container component="main" maxWidth="md">
-        <Typography component="h1" variant="h2" color="secondary" marginTop={4} marginBottom={1}>
+        <Typography component="h1" variant="h2" marginTop={4} marginBottom={1}>
           {file.title}
         </Typography>
 
@@ -49,7 +49,6 @@ const File = ({ fileId }: { fileId: string }) => {
 
         {file.description && (
           <Typography
-            color="secondary"
             marginTop={8}
             marginBottom={2}
             style={{ display: "inline-block", whiteSpace: "pre-line" }}
@@ -58,7 +57,7 @@ const File = ({ fileId }: { fileId: string }) => {
           </Typography>
         )}
 
-        {loading ? (
+        {Boolean(file.attachment.length) && loading ? (
           <Typography textAlign="center">
             <CircularProgress />
           </Typography>

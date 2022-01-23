@@ -21,7 +21,13 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.file.count({ where }),
-      query: (paginateArgs) => db.file.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) =>
+        db.file.findMany({
+          ...paginateArgs,
+          where,
+          orderBy,
+          include: { attachment: { select: { attachmentTitle: true } } },
+        }),
     });
 
     return {
