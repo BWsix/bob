@@ -19,13 +19,13 @@ export const Breadcrumb: React.FC<Props> = ({ meta, children }) => {
           <Breadcrumbs>
             {meta.map(({ name, path }) =>
               path ? (
-                <Link key={path} href={path}>
+                <Link key={name} href={path}>
                   <MuiLink color="secondary" sx={{ cursor: "pointer" }}>
                     {name}
                   </MuiLink>
                 </Link>
               ) : (
-                <MuiLink color="secondary" sx={{ cursor: "pointer" }}>
+                <MuiLink key={name} color="secondary" sx={{ cursor: "pointer" }}>
                   {name}
                 </MuiLink>
               )
