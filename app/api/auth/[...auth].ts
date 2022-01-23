@@ -78,7 +78,7 @@ export default passportAuth(({ ctx, req, res }) => ({
           clientSecret: process.env.GOOGLE_SECRET as string,
           callbackURL:
             process.env.NODE_ENV === "production"
-              ? (process.env.GITHUB_CALLBACK_URL as string)
+              ? (process.env.GOOGLE_CALLBACK_URL as string)
               : "http://localhost:3000/api/auth/google/callback",
         },
         async function (
