@@ -177,7 +177,7 @@ export const FileForm: React.FC<FileFormProps> = ({ submitText, initialValues, o
               >
                 <input {...getInputProps()} />
                 <Typography textAlign="center" color={fileRejections.length ? "red" : "secondary"}>
-                  {fileRejections[0]?.errors[0]?.code || "拖曳或點擊此處來上傳檔案"}
+                  {fileRejections[0]?.errors[0]?.code || "拖曳或點擊此處來上傳檔案(<4mb)"}
                 </Typography>
               </Paper>
             )}
