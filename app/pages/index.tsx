@@ -60,6 +60,15 @@ const Home: BlitzPage = () => {
         <Typography variant="h5" textAlign="center">
           更美好的自主學習體驗，就從從今天開始
         </Typography>
+        <Grid container alignItems="center" justifyContent="center" paddingTop={2}>
+          <Grid item>
+            <Link href={Routes.LoginPage()}>
+              <Button variant="contained" disableElevation sx={{ mr: 2, mt: 2 }}>
+                登入Bob
+              </Button>
+            </Link>
+          </Grid>
+        </Grid>
       </Container>
     </>
   );
